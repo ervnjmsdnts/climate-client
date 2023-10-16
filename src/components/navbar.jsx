@@ -14,7 +14,7 @@ export default function Navbar() {
   return (
     <div className='navbar px-8 border-b bg-base-100'>
       <div className='flex-1'>
-        <p className='text-xl'>Name</p>
+        <p className='text-xl'>RC Jacobe</p>
       </div>
       <div className='flex-none'>
         <div className='dropdown dropdown-end'>
