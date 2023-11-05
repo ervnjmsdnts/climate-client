@@ -55,8 +55,8 @@ export default function UpdatePasswordPage() {
             Update Password
           </h1>
           <p className='text-center mx-12'>
-            Boost security now. Enter your current and new password, and click
-            &apos;Update Password&apos; to save.
+            Boost security now. Enter your new password, and click &apos;Update
+            Password&apos; to save.
           </p>
           <div className='space-y-6 w-ful'>
             <div className='space-y-3'>
