@@ -37,7 +37,7 @@ export default function Navbar() {
     const { error } = await supabaseClient.auth.resetPasswordForEmail(
       user.email,
       {
-        redirectTo: import.meta.env.VERCEL_URL
+        redirectTo: import.meta.env.PROD
           ? 'https://climate-bsu.vercel.app/'
           : 'http://localhost:5173/update-password',
       },
