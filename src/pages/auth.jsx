@@ -1,9 +1,47 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../components/auth-provider';
 import { Navigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from 'react-query';
+import { supabaseClient } from '../lib/supabase';
+import { z } from 'zod';
+import { Loader2 } from 'lucide-react';
+import { toast } from 'react-toastify';
+
+const schema = z.object({
+  email: z.string().email('Enter a valid email').min(1, 'Field is required'),
+  password: z.string().min(6, 'Minimum of 6 characters is required'),
+});
 
 export default function Auth() {
   const { user } = useAuth();
+
+  const form = useForm({ resolver: zodResolver(schema) });
+  const navigate = useNavigate();
+
+  const { mutate: login, isLoading } = useMutation(
+    async ({ email, password }) => {
+      const { error } = await supabaseClient.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (error) {
+        return toast.error(error.message, {
+          position: 'top-right',
+          hideProgressBar: true,
+          theme: 'colored',
+        });
+      }
+
+      navigate('/app');
+    },
+  );
+
+  const submit = async (data) => {
+    login({ ...data });
+  };
 
   if (user) return <Navigate to='/app' />;
 
@@ -17,9 +55,11 @@ export default function Auth() {
               Welcome RC Jacobe Pharmacy and Medical Supplies
             </h1>
             <p className='pr-3'>
-              Lorem ipsum is placeholder text commonly used in the graphic,
-              print, and publishing industries for previewing layouts and visual
-              mockups
+              Pharmacy is the health profession that has the responsibility for
+              ensuring the safe, effective, and rational use of medicines. As
+              such it plays a vital part in the delivery of health care
+              worldwide. However, there remain wide variations in the practice
+              of pharmacy, not only between countries but also within countries.
             </p>
           </div>
         </div>
@@ -36,7 +76,8 @@ export default function Auth() {
                 </label>
                 <input
                   className=' w-full text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-primary'
-                  type=''
+                  type='email'
+                  {...form.register('email')}
                   placeholder='mail@gmail.com'
                 />
               </div>
@@ -46,7 +87,8 @@ export default function Auth() {
                 </label>
                 <input
                   className='w-full content-center text-base px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-primary'
-                  type=''
+                  type='password'
+                  {...form.register('password')}
                   placeholder='Enter your password'
                 />
               </div>
@@ -60,8 +102,15 @@ export default function Auth() {
                 </div>
               </div>
               <div>
-                <button type='submit' className='btn btn-primary w-full'>
-                  Sign in
+                <button
+                  disabled={isLoading}
+                  onClick={form.handleSubmit(submit)}
+                  className='btn btn-primary w-full'>
+                  {isLoading ? (
+                    <Loader2 className='h-4 w-4 animate-spin' />
+                  ) : (
+                    'Submit'
+                  )}
                 </button>
               </div>
             </div>
