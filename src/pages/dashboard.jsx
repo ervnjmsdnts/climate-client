@@ -134,10 +134,10 @@ export default function Dashboard() {
   }, [queryClient]);
 
   return (
-    <div className='p-8 flex-grow'>
+    <div className='p-2 sm:p-8 flex-grow'>
       {climates && climates.length > 0 ? (
-        <div className='grid grid-cols-6 grid-rows-4 gap-4 h-full'>
-          <div className='col-span-2 flex gap-4'>
+        <div className='grid grid-cols-1 sm:grid-cols-6 sm:grid-rows-4 w-full gap-4 h-full'>
+          <div className='col-span-2 flex gap-4 w-full'>
             <div className='card bg-red-300 w-full text-white hover:shadow-xl shadow-lg'>
               <div className='card-body'>
                 <div className='flex justify-between items-center'>
@@ -165,18 +165,18 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-          <div className='col-span-4 row-span-4 gap-4 flex flex-col'>
-            <div className='self-end'>
+          <div className='sm:col-span-4 col-span-2 row-span-4 sm:w-full gap-4 flex flex-col'>
+            <div className='sm:self-end'>
               <select
                 onChange={(e) => setSelectedFilter(e.target.value)}
-                className='select select-bordered rounded-lg w-full max-w-xs'>
+                className='select select-bordered rounded-lg w-full sm:max-w-xs'>
                 <option value='All Time'>All Time</option>
                 <option value='Current Day'>Current Day</option>
                 <option value='Current Week'>Current Week</option>
                 <option value='Current Month'>Current Month</option>
               </select>
             </div>
-            <div className='card h-full shadow-lg hover:shadow-xl p-4'>
+            <div className='card h-full shadow-lg hover:shadow-xl sm:p-4'>
               <div className='card-body'>
                 <ResponsiveContainer width='100%' height='100%'>
                   <LineChart data={filteredData}>
@@ -207,9 +207,9 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-          <div className='card shadow-lg col-span-2 flex flex-col row-span-3'>
+          <div className='card shadow-lg col-span-2 flex flex-col min-h-[300px] row-span-3'>
             <CSVLink
-              className='btn btn-primary self-end mb-2 btn-sm'
+              className='btn btn-primary sm:self-end mb-2 btn-sm'
               data={csvData}
               filename={`${format(new Date(), 'MM-dd-yyyy')}_climate.csv`}>
               Download CSV
