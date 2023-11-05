@@ -21,9 +21,7 @@ export default function ForgotPasswordPage() {
     const { error } = await supabaseClient.auth.resetPasswordForEmail(
       data.email,
       {
-        redirectTo: import.meta.env.PROD
-          ? 'https://climate-bsu.vercel.app/update-password'
-          : 'http://localhost:5173/update-password',
+        redirectTo: 'https://climate-bsu.vercel.app/update-password',
       },
     );
 
