@@ -29,7 +29,7 @@ export default function Navbar() {
     const { error } = await supabaseClient.auth.signOut();
     if (error) throw error;
 
-    navigate('/auth');
+    navigate('/');
   };
 
   const updatePassword = async () => {

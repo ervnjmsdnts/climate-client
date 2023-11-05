@@ -9,7 +9,7 @@ export default function Home() {
   if (user) return <Navigate to='/app' />;
   return (
     <div>
-      <button className='btn btn-primary' onClick={() => navigate('/auth')}>
+      <button className='btn btn-primary' onClick={() => navigate('/')}>
         Go to Auth
       </button>
     </div>

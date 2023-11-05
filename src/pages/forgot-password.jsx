@@ -1,34 +1,31 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
-import { useState } from 'react';
+import { ArrowLeft } from 'lucide-react';
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 import { z } from 'zod';
 import { supabaseClient } from '../lib/supabase';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useState } from 'react';
+import { Loader2 } from 'lucide-react';
 
-const schema = z
-  .object({
-    password: z.string().min(1, 'required'),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ['confirmPassword'],
-  });
+const schema = z.object({
+  email: z.string().min(1, 'Field is required').email('Enter valid email'),
+});
 
-export default function UpdatePasswordPage() {
+export default function ForgotPasswordPage() {
   const form = useForm({ resolver: zodResolver(schema) });
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
-
   const submit = async (data) => {
     setLoading(true);
-
-    const { error } = await supabaseClient.auth.updateUser({
-      password: data.password,
-    });
+    const { error } = await supabaseClient.auth.resetPasswordForEmail(
+      data.email,
+      {
+        redirectTo: import.meta.env.PROD
+          ? 'https://climate-bsu.vercel.app/update-password'
+          : 'http://localhost:5173/update-password',
+      },
+    );
 
     setLoading(false);
     if (error) {
@@ -39,40 +36,33 @@ export default function UpdatePasswordPage() {
       });
     }
 
-    toast.success('Password has been updated', {
+    return toast.success('An email has been sent to you', {
       position: 'top-right',
       hideProgressBar: true,
       theme: 'colored',
     });
-
-    return navigate('/', { replace: true });
   };
+
   return (
     <div className='h-full'>
       <div className='flex flex-col items-center justify-center h-full  p-4 space-y-4 antialiased text-gray-900 bg-gray-100'>
         <div className='w-full px-8 max-w-lg space-y-6 bg-white rounded-md py-16'>
           <h1 className=' mb-6 text-3xl font-bold text-center'>
-            Update Password
+            Don&apos;t worry
           </h1>
           <p className='text-center mx-12'>
-            Boost security now. Enter your current and new password, and click
-            &apos;Update Password&apos; to save.
+            We are here to help you to recover your password. Enter the email
+            address you used when you joined and we&apos;ll send you
+            instructions to reset your password.
           </p>
           <div className='space-y-6 w-ful'>
-            <div className='space-y-3'>
-              <input
-                className='w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-primary'
-                type='password'
-                placeholder='New Password'
-                {...form.register('password')}
-              />
-              <input
-                className='w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-primary'
-                type='password'
-                placeholder='Confirm Password'
-                {...form.register('confirmPassword')}
-              />
-            </div>
+            <input
+              className='w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-primary'
+              type='email'
+              name='email'
+              placeholder='Email address'
+              {...form.register('email')}
+            />
             <div>
               <button
                 className='btn btn-primary w-full'
@@ -81,10 +71,18 @@ export default function UpdatePasswordPage() {
                 {loading ? (
                   <Loader2 className='w-4 h-4 animate-spin' />
                 ) : (
-                  'Update Password'
+                  'Send'
                 )}
               </button>
             </div>
+          </div>
+          <div className='text-sm text-gray-600 items-center flex justify-between'>
+            <Link
+              to='/'
+              className='text-gray-800 cursor-pointer hover:text-blue-500 inline-flex items-center ml-4'>
+              <ArrowLeft className='h-4 w-4 mr-3' />
+              Back
+            </Link>
           </div>
         </div>
       </div>
