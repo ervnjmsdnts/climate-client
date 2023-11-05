@@ -137,7 +137,7 @@ export default function Dashboard() {
     <div className='p-2 sm:p-8 flex-grow'>
       {climates && climates.length > 0 ? (
         <div className='grid grid-cols-1 sm:grid-cols-6 sm:grid-rows-4 w-full gap-4 h-full'>
-          <div className='col-span-2 flex gap-4 w-full'>
+          <div className='col-span-2 flex sm:gap-4 gap-2 flex-col sm:flex-row w-full'>
             <div className='card bg-red-300 w-full text-white hover:shadow-xl shadow-lg'>
               <div className='card-body'>
                 <div className='flex justify-between items-center'>
@@ -165,7 +165,7 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-          <div className='sm:col-span-4 col-span-2 row-span-4 sm:w-full gap-4 flex flex-col'>
+          <div className='sm:col-span-4 col-span-2 sm:row-span-4 sm:w-full gap-4 flex flex-col'>
             <div className='sm:self-end'>
               <select
                 onChange={(e) => setSelectedFilter(e.target.value)}
@@ -177,7 +177,7 @@ export default function Dashboard() {
               </select>
             </div>
             <div className='card h-full shadow-lg hover:shadow-xl sm:p-4'>
-              <div className='card-body'>
+              <div className='card-body min-h-[300px] sm:min-h-full'>
                 <ResponsiveContainer width='100%' height='100%'>
                   <LineChart data={filteredData}>
                     <CartesianGrid strokeDasharray='3 3' />
@@ -194,7 +194,7 @@ export default function Dashboard() {
               </div>
             </div>
             <div className='card h-full shadow-lg hover:shadow-xl p-4'>
-              <div className='card-body'>
+              <div className='card-body min-h-[300px] sm:min-h-full'>
                 <ResponsiveContainer width='100%' height='100%'>
                   <LineChart data={filteredData}>
                     <CartesianGrid strokeDasharray='3 3' />
@@ -207,7 +207,7 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-          <div className='card shadow-lg col-span-2 flex flex-col min-h-[300px] row-span-3'>
+          <div className='card shadow-lg col-span-2 flex flex-col min-h-[300px] row-span-2 sm:row-span-3'>
             <CSVLink
               className='btn btn-primary sm:self-end mb-2 btn-sm'
               data={csvData}
