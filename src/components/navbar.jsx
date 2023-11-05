@@ -38,7 +38,7 @@ export default function Navbar() {
       user.email,
       {
         redirectTo: import.meta.env.PROD
-          ? 'https://climate-bsu.vercel.app/'
+          ? 'https://climate-bsu.vercel.app/update-password'
           : 'http://localhost:5173/update-password',
       },
     );
