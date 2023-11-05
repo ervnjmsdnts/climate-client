@@ -25,6 +25,7 @@ import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { useMemo } from 'react';
 import { CSVLink } from 'react-csv';
+import { cn } from '../lib/utils';
 
 function CustomTooltip({ active, payload, type }) {
   if (active && payload && payload.length) {
@@ -138,7 +139,15 @@ export default function Dashboard() {
       {climates && climates.length > 0 ? (
         <div className='grid grid-cols-1 sm:grid-cols-6 sm:grid-rows-4 w-full gap-4 h-full'>
           <div className='col-span-2 flex sm:gap-4 gap-2 flex-col sm:flex-row w-full'>
-            <div className='card bg-red-300 w-full text-white hover:shadow-xl shadow-lg'>
+            <div
+              className={cn(
+                'card w-full text-white hover:shadow-xl shadow-lg',
+                latestClimate?.temperature < 15
+                  ? 'bg-blue-300'
+                  : latestClimate?.temperature > 26
+                  ? 'bg-red-300'
+                  : 'bg-green-300',
+              )}>
               <div className='card-body'>
                 <div className='flex justify-between items-center'>
                   <h2 className='card-title'>Temperature</h2>
