@@ -46,7 +46,7 @@ export default function ForgotPasswordPage() {
       <div className='flex flex-col items-center justify-center h-full  p-4 space-y-4 antialiased text-gray-900 bg-gray-100'>
         <div className='w-full px-8 max-w-lg space-y-6 bg-white rounded-md py-16'>
           <h1 className=' mb-6 text-3xl font-bold text-center'>
-            Don&apos;t worry
+            Don&apos;t worrys
           </h1>
           <p className='text-center mx-12'>
             We are here to help you to recover your password. Enter the email
